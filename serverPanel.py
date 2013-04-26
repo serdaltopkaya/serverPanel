@@ -13,6 +13,7 @@ class sshClass(object):
 	self.stdin=''
 	self.stdout=''
 	self.stderr=''
+	self.path=''
 
     def connection_builder(self):
         self.userClient.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
@@ -23,17 +24,21 @@ class sshClass(object):
         try:
             self.userClient.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
             self.userClient.connect(self.server, username=self.username, password=self.password)
-
+            self.stdin,self.path,self.stderr = self.userClient.exec_command('pwd')
+            self.path=self.path.read()
             while True:
                 cmd = raw_input("Command to run: ")
                 if cmd == "":
-                    print "its complated"
+                    print "its complated";
+	            print "current directory: ",self.path
 		    self.userClient.close()
 	            break
 
                 print "running '%s'" % cmd
                 self.stdin,self.stdout,self.stderr = self.userClient.exec_command(cmd)
-                print self.stdout.read()
+                print self.stdout.read().strip()
+                print "current directory: ",self.path
+
 	finally:
 	    self.userClient.close()        
 
