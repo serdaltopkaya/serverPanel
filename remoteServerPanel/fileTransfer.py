@@ -2,9 +2,6 @@ import paramiko
 import os
 import sys
 class Server(object):
-    """
-    Wraps paramiko for super-simple SFTP uploading and downloading.
-    """
 
     def __init__(self, username, password, host, port=22):
 
