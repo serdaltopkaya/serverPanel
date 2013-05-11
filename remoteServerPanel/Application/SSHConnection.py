@@ -3,13 +3,13 @@
 import pexpect
 import pxssh
 
-class SSHConnection(object):
+class SSHConnection(object,host,user,password):
 
      def __init__(self):
 
-          self.user="srdl"
-          self.host="192.168.107.66"
-          self.userpass="ser21"
+          self.user=user
+          self.host=host
+          self.userpass=password
           self.rootpass="ser21"
           self.userClient=pxssh.pxssh()
 
