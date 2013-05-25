@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # inputdialog.py
 import sys
+import controlPanel
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-class ConnPanel(QtGui.QWidget):
+
+class ConnectionPanel(QtGui.QWidget):
     def __init__(self, parent=None):
    
         QtGui.QWidget.__init__(self, parent)
@@ -36,13 +38,33 @@ class ConnPanel(QtGui.QWidget):
         self.password.setEchoMode (QtGui.QLineEdit.Password)
         self.password.move(130,100) 
    
+    
+    def closeEvent(self): 
+        self.destory()  
+
+
     def connectToServer(self):
         ip= self.ipEdit.text()
         if ip=="":
             reply = QtGui.QMessageBox.warning(self, 'didnt connect','you should enter server ip to enter aria')
-	    
- 
-app = QtGui.QApplication(sys.argv)
-icon = ConnPanel()
-icon.show()
-app.exec_()
+	
+        else: 
+            self.getConInform()
+            self.panel = controlPanel.ControlPanel(self.hostIP,self.hostUser,self.hostPass)
+            self.panel.show()
+      
+
+    def getConInform(self):
+            self.hostIP=shost = self.ipEdit.text()
+            self.hostUser=self.userName.text()	 
+            self.hostPass=self.password.text()
+   
+def Start():
+    global panel
+    panel = ConnectionPanel()
+    panel.show()
+                            
+if __name__ == "__main__":
+    app = QtGui.QApplication(sys.argv)
+    Start()
+    app.exec_()
