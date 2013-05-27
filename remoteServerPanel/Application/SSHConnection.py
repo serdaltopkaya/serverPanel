@@ -3,14 +3,14 @@
 import pexpect
 import pxssh
 
-class SSHConnection(object,host,user,password):
+class SSHConnection(object):
 
-     def __init__(self):
+     def __init__(self,hostIP, hostUser, hostPass):
 
-          self.user=user
-          self.host=host
-          self.userpass=password
-          self.rootpass="ser21"
+          self.user=hostUser
+          self.host=hostIP
+          self.userpass=hostPass
+          #self.rootpass=password
           self.userClient=pxssh.pxssh()
 
      def connection_builder(self):
@@ -32,10 +32,12 @@ class SSHConnection(object,host,user,password):
                     self.userClient.prompt()
                     a=self.userClient.before
                     print self.userClient.before
-                    #self.userClient.sendline("pwd")
+                    self.serverFiles=a.split()
                     #self.userClient.prompt()
-                    print "  tip:   ",  type(a)
+                    for i in range(len(self.serverFiles)):
+                         print self.serverFiles[i]
 
+if __name__ == "__main__":
 
-myclass=SSHConnection()
-myclass.connection_builder()
+     myclass=SSHConnection()
+     myclass.connection_builder()
