@@ -1,6 +1,7 @@
 import paramiko
 import os
 import sys
+import edit1
 class Server(object):
 
     def __init__(self, username, password, host, port=22):
@@ -17,7 +18,14 @@ class Server(object):
             #self.sftp.put(local, remote)
 
     def download(self, remote, local):
+    	  	
         self.sftp.get(remote, local)
+
+
+    
+    def openFile(self, remote):
+    	notepad = edit1.Notepad(self.sftp.open(remote))
+    
 
     def close(self):
         """
@@ -34,9 +42,10 @@ class Server(object):
 
     def __exit__(self, type, value, tb):
         self.close()
+if __name__=='__main__':
 
-server1=Server('srdl','ser21','192.168.107.66')
-local='/home/srdl/serverPanel/c2.py'
-remote='/home/srdl/c1.py'
-server1.download(remote,local)
+  server1=Server('srdl','ser21','192.168.1.45') 
+  local='/home/srdl/transfer.py'
+  remote='/home/srdl/transfer.py'
+  server1.openFile(remote)
 
